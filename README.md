@@ -1,4 +1,4 @@
-# info_dashboard_app
+# InfoDashboard
 
 ## Project setup
 ```

@@ -1,14 +1,14 @@
 <template>
-  <div>Главная</div>
+    <div>Погода</div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: 'HomeView'
+  name: 'WeatherView'
 });
 </script>
 
-<style scoped>
+<style scoped> 
 </style>
