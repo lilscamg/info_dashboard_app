@@ -41,11 +41,14 @@ export default defineComponent({
 
 :root{
   --default-padding: 20px;
+  --background-color: white;
+  --main-color: #66e8b6
 }
 body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
   font-style: normal;
+  background-color: var(--background-color);
 }
 .app-container {
   display: flex;
@@ -54,6 +57,12 @@ body {
 .view-layout {
   padding: var(--default-padding);
   flex-grow: 1;
+}
+.view-title {
+  color: var(--main-color);
+  margin-bottom: 20px;
+  font-size: 35px;
+  font-weight: 700;
 }
 @media (max-width: 450px) {
   .app-container {

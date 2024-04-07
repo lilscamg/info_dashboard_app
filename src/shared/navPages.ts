@@ -14,18 +14,18 @@ export const navItems: NavItem[] = [
         id: 1,
         name: "Главная",
         path: "/",
-        img: "home.png"
+        img: ASSETS_PATH + "home.png"
     },
     {
         id: 2,
         name: "Погода",
         path: "/weather",
-        img: "cloudy.png"
+        img: ASSETS_PATH + "cloudy.png"
     },
     {
         id: 3,
         name: "Курсы валют",
         path: "/exchange-rates",
-        img: "currency.png"
+        img: ASSETS_PATH + "currency.png"
     }
 ] 

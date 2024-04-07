@@ -1,11 +1,9 @@
 <template>
 <div 
-    v-for="item in navItems" 
-    :key="item.id"
-    @click="navigateTo(item.path)"
+    @click="navigateTo(navItem.path)"
     class="d-flex flex-row align-items-center gap-2">
-        <img v-show="isMobile" :src="item.img">
-        <a v-show="!isMobile || (showMenu && isMobile)">{{item.name}}</a> 
+        <img v-show="isMobile" :src="navItem.img">
+        <a v-show="!isMobile || (showMenu && isMobile)">{{navItem.name}}</a> 
 </div>
 </template>
 
@@ -18,7 +16,10 @@ import { NavItem } from '../shared/navPages';
 export default defineComponent({
     name: "NavbarItemComponent",
     props: {
-        navItems: Array as PropType<NavItem[]>
+        navItem: { 
+            type: Object as PropType<NavItem>,
+            required: true
+        }
     },
     setup() {
         const router = useRouter();

@@ -1,6 +1,10 @@
 <template>
     <nav class="desktop">
-      <NavbarItemComponent :navItems="navItems"></NavbarItemComponent>
+      <NavbarItemComponent
+        v-for="item in navItems" 
+        :navItem="item"
+        :key="item.id">
+      </NavbarItemComponent>
     </nav>
     <nav class="mobile" 
       :class="[!menuShow? 'hide':'']">
@@ -8,7 +12,11 @@
           class="mb-2" 
           @click="hideMenu" 
           src="@/assets/hamburger.png"/>
-        <NavbarItemComponent :navItems="navItems"></NavbarItemComponent>
+        <NavbarItemComponent
+          v-for="item in navItems" 
+          :navItem="item"
+          :key="item.id">
+        </NavbarItemComponent>
     </nav>
 </template>
   
@@ -41,7 +49,7 @@ export default defineComponent({
 nav {
   display: flex;
   gap: 10px;
-  background-color: gainsboro;
+  background-color: var(--main-color);
   padding: var(--default-padding);
 }
 nav.desktop{
