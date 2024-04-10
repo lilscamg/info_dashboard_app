@@ -1,27 +1,28 @@
 <template>
-    <button>{{ text }}</button>
+    <a :href="href">{{ text }}</a>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
-    name: "InputComponent",
+    name: "LinkComponent",
     props: {
         text: {
             type: String as PropType<string>,
-            required: false,
+            required: true,
+        },
+        href: {
+            type: String as PropType<string>,
+            required: true
         }
     }
 });
 </script>
 
 <style scoped>
-button {
-    background-color: var(--main-color);
-    border: none;
-    border-radius: 15px;
-    padding: 0 15px;
+a {
+    text-decoration: none;
     color: white;
 }
 </style>

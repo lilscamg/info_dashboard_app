@@ -7,25 +7,27 @@ export class NavItem {
     {}
 }
 
-const ASSETS_PATH = "@/assets/";
+import homeIcon from "@/assets/icons/home.png";
+import weatherIcon from "@/assets/icons/cloudy.png"
+import exchangeRatesIcon from "@/assets/icons/currency.png";
 
 export const navItems: NavItem[] = [
     {
         id: 1,
         name: "Главная",
         path: "/",
-        img: ASSETS_PATH + "home.png"
+        img: homeIcon
     },
     {
         id: 2,
         name: "Погода",
         path: "/weather",
-        img: ASSETS_PATH + "cloudy.png"
+        img: weatherIcon
     },
     {
         id: 3,
-        name: "Курсы валют",
+        name: "Валюты",
         path: "/exchange-rates",
-        img: ASSETS_PATH + "currency.png"
+        img: exchangeRatesIcon
     }
 ] 

@@ -1,8 +1,8 @@
 <template>
 <div 
     @click="navigateTo(navItem.path)"
-    class="d-flex flex-row align-items-center gap-2">
-        <img v-show="isMobile" :src="navItem.img">
+    class="d-flex flex-row align-items-center gap-1">
+        <img :src="navItem.img">
         <a v-show="!isMobile || (showMenu && isMobile)">{{navItem.name}}</a> 
 </div>
 </template>
@@ -37,11 +37,15 @@ export default defineComponent({
 </script>
 
 <style scoped>
+div {
+    height: 25px;
+    cursor: pointer;
+}
 img {
     width: 20px !important;
     height: 20px !important;
 }
 a {
-    cursor: pointer;
+    color: white !important;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div>Курсы валют</div>
+    <div class="view-title">Курсы валют</div>
 </template>
 
 <script lang="ts">
