@@ -22,12 +22,20 @@ body {
   font-size: 35px;
   font-weight: 700;
 }
+.text-bold {
+  font-weight: 700;
+}
 .flex-grow-1 {
-    flex-grow: 1;
+  flex-grow: 1;
+}
+.c-main {
+  color: var(--main-color);
+}
+.c-secondary {
+  color: var(--secondary-color);
 }
 .card {
-  background-color: var(--gray-color);
+  background-color: var(white);
   padding: var(--default-padding);
   border-radius: var(--default-border-radius);
-  opacity: 1;
 }

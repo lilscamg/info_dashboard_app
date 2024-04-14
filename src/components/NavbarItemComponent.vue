@@ -26,11 +26,12 @@ export default defineComponent({
         const store = useStore();
 
         return {
-            navigateTo: (path: RouteLocationRaw) => {
+            navigateTo: async (path: RouteLocationRaw) => {
+                await store.dispatch("NAVBAR_MENU_HIDE");
                 router.push(path);
             },
-            showMenu: computed(() => store.getters.getShowMenu),
-            isMobile: computed(() => store.getters.getIsMobile)
+            showMenu: computed<boolean>(() => store.getters.getShowMenu),
+            isMobile: computed<boolean>(() => store.getters.getIsMobile)
         }
     }
 })

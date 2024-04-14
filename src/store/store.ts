@@ -6,7 +6,7 @@ export interface State {
     isMobile: boolean,
     showMenu: boolean,
     showPreloader: boolean,
-    location: string
+    lang: string
 }
 
 // define injection key
@@ -17,13 +17,13 @@ export const store = createStore<State>({
         showMenu: false,
         isMobile: false,
         showPreloader: false,
-        location: "ru"
+        lang: "ru"
     },
     getters: {
         getShowMenu: (state) => state.showMenu, 
         getIsMobile: (state) => state.isMobile,
         getShowPreloader: (state) => state.showPreloader,
-        getLocation: (state) => state.location
+        getLang: (state) => state.lang
     },
     mutations: {
         ["SET_NAVBAR_MENU"]: (state, isHidden) => {

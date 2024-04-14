@@ -1,13 +1,17 @@
 <template>
   <div class="app-container">
-    <PreloaderComponent v-if="store.getters.getShowPreloader"></PreloaderComponent>
+    <PreloaderComponent v-if="showPreloader"></PreloaderComponent>
     <NavbarComponent></NavbarComponent>
-    <div class="view-layout"><router-view/></div>
+    <div 
+      class="view-layout"
+      :class="{'view-layout-margin': isSetMarginToViewLayout}">
+        <router-view/>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, onUnmounted, ref, watch } from 'vue';
 import NavbarComponent from '@/components/NavbarComponent.vue';
 import PreloaderComponent from '@/components/PreloaderComponent.vue';
 import { useStore } from './store/store';
@@ -21,6 +25,8 @@ export default defineComponent({
     setup() {
       const store = useStore();
       const windowWidth = ref<number>(window.innerWidth);
+      const showPreloader = computed<boolean>(() => store.getters.getShowPreloader);
+      const isSetMarginToViewLayout = computed<boolean>(() => store.getters.getShowMenu && store.getters.getIsMobile)
 
       watch (windowWidth, (newValue, oldValue) => {
         const isMobile = windowWidth.value <= 450;
@@ -39,7 +45,8 @@ export default defineComponent({
       });
 
       return {
-        store
+        showPreloader,
+        isSetMarginToViewLayout
       }
     }
 })
@@ -50,11 +57,14 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 100vh;
+  height: 100%s;
 }
 .view-layout {
   padding: var(--default-padding);
   flex-grow: 1;
+}
+.view-layout-margin {
+  margin-left: 60px;
 }
 @media (max-width: 450px) {
   .app-container {

@@ -44,7 +44,7 @@ export default defineComponent({
 
       return {
         navItems,
-        menuShow: computed(() => store.getters.getShowMenu),
+        menuShow: computed<boolean>(() => store.getters.getShowMenu),
         hideMenu: () => {
           store.dispatch(`NAVBAR_MENU_${store.getters.getShowMenu ? "HIDE" : "SHOW"}`);
         }
@@ -68,8 +68,8 @@ nav.mobile {
   flex-direction: column;
   display: none;
   gap: 15px;
-  height: 100vh;
   position: absolute;
+  height: 100%;
 }
 nav img {
   width: 20px;
@@ -77,7 +77,7 @@ nav img {
 }
 nav.mobile.hide {
   flex-basis: 50px;
-  position: static;
+  position: sticky;
 }
 @media (max-width: 450px) {
   nav.desktop {
