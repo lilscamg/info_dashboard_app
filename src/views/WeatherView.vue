@@ -104,13 +104,14 @@ export default defineComponent({
     InputTextComponent,
     ButtonComponent
   },
+
   setup() {
     const store = useStore();
-    const isMobile = computed(() => store.getters.getIsMobile);
-    const lang = computed(() => store.getters.getLang);
+    const isMobile = computed<boolean>(() => store.getters.getIsMobile);
+    const lang = computed<any>(() => store.getters.getLang);
     const isWeatherInfoLoaded = ref<boolean>(false);
     const locationInput = ref<string>("Казань");
-    let locationInfo = new LocationInfo();
+    let locationInfo = reactive<LocationInfo>(new LocationInfo());
     let currentWeatherInfo = reactive<CurrentWeatherInfo>(new CurrentWeatherInfo());
 
     const getWeather = async () => {
