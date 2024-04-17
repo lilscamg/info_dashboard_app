@@ -87,7 +87,7 @@ class WeatherService {
     private defaultOptions: object = {
         lang: 'ru',
         appid: process.env.OPEN_WEATHER_MAP_API_KEY
-    }
+    };
     public GetLocationInfoByName(location: string): Promise<any> {
         return axios.get(this.API + "/geo/1.0/direct", {
             params: {

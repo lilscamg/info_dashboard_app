@@ -1,5 +1,7 @@
 <template>
     <nav class="desktop">
+      <img src="@/assets/logo/logo32.png" class="nav-logo" alt="">
+      <div class="nav-title">InfoDashboard</div>
       <NavbarItemComponent
         v-for="item in navItems" 
         :navItem="item"
@@ -62,6 +64,7 @@ nav {
 }
 nav.desktop{
   flex-direction: row;
+  align-items: center;
   gap: 20px;
 }
 nav.mobile {
@@ -71,13 +74,16 @@ nav.mobile {
   position: absolute;
   height: 100%;
 }
-nav img {
+nav img:not(.nav-logo) {
   width: 20px;
   height: 20px;
 }
 nav.mobile.hide {
   flex-basis: 50px;
   position: sticky;
+}
+.nav-title {
+  font-size: 24px;
 }
 @media (max-width: 450px) {
   nav.desktop {
