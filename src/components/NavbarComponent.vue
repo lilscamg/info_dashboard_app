@@ -1,7 +1,7 @@
 <template>
     <nav class="desktop">
-      <img src="@/assets/logo/logo32.png" class="nav-logo" alt="">
-      <div class="nav-title">InfoDashboard</div>
+      <!-- <img src="@/assets/logo/logo32.png" class="nav-logo" alt="">
+      <div class="nav-title">InfoDashboard</div> -->
       <NavbarItemComponent
         v-for="item in navItems" 
         :navItem="item"
@@ -72,7 +72,6 @@ nav.mobile {
   display: none;
   gap: 15px;
   position: absolute;
-  height: 100%;
 }
 nav img:not(.nav-logo) {
   width: 20px;

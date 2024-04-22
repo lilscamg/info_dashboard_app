@@ -21,7 +21,7 @@ button {
     background-color: var(--main-color);
     border: none;
     border-radius: var(--default-border-radius);
-    padding: 0 15px;
+    padding: 5px 15px;
     color: white;
 }
 button:hover{

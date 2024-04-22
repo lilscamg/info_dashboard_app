@@ -44,6 +44,7 @@ export class CurrentWeatherInfo {
     public snow3h: number | undefined = 0;
     public cityName = "";
     public dt = 0;
+    public dt_text = "";
 
     public Update(
         weather: any,
@@ -60,23 +61,65 @@ export class CurrentWeatherInfo {
         this.weatherMain = weather.main;
         this.weatherDescription = weather.description;
         this.weatherIcon = this.openWeatherIconPath + weather.icon + '.png';
-        this.temp = main.temp;
-        this.feels_like = main.feels_like;
+        this.temp = Math.round(main.temp);
+        this.feels_like = Math.round(main.feels_like);
         this.pressure = main.pressure;
         this.humidity = main.humidity;
-        this.temp_max = main.temp_max;
-        this.temp_min = main.temp_min;
+        this.temp_max = Math.round(main.temp_max);
+        this.temp_min = Math.round(main.temp_min);
         this.visibility = visibility;
-        this.windSpeed = wind.speed;
+        this.windSpeed =  wind.speed ? wind.speed.toFixed(1) : undefined;
         this.windDeg = wind.deg;
-        this.windGust = wind.gust;
+        this.windGust = wind.gust ? wind.gust.toFixed(1) : undefined;
         this.cloudiness = clouds.all;
-        this.rain1h = rain ? rain["1h"] : undefined,
-        this.rain3h = rain ? rain["3h"] : undefined,
-        this.snow1h = snow ? snow["1h"] : undefined,
-        this.snow3h = snow ? snow["3h"] : undefined,
-        this.cityName = name,
-        this.dt = dt
+        this.rain1h = rain ? rain["1h"] : undefined;
+        this.rain3h = rain ? rain["3h"] : undefined;
+        this.snow1h = snow ? snow["1h"] : undefined;
+        this.snow3h = snow ? snow["3h"] : undefined;
+        this.cityName = name;
+        this.dt = dt;
+        this.dt_text = new Date(dt * 1000).toLocaleString();
+    }
+}
+//#endregion
+
+//#region ForecastInfo 
+export class ForecastInfo {
+    public cityCountry = "";
+    public cityPopulation = 0;
+    public citySunrise = 0;
+    public citySunset = 0;
+    public cityTimezone = 0;
+    public cnt = 0;
+    public list: Array<CurrentWeatherInfo> = []
+
+    public Update(
+        city: any,
+        cnt: number,
+        list: Array<any>
+    ) {
+        this.cityCountry = city.country;
+        this.cityPopulation = city.population;
+        this.citySunrise = city.sunrise;
+        this.citySunset = city.sunset;
+        this.cityTimezone = city.timezone;
+        this.cnt = cnt;
+        this.list = [];
+        list.forEach(el => {
+            const currentWeatherInfo = new CurrentWeatherInfo();
+            currentWeatherInfo.Update(
+                el.weather[0],
+                el.main,
+                el.wind,
+                el.clouds,
+                el.visibility,
+                el.rain,
+                el.snow,
+                el.name,
+                el.dt
+            );
+            this.list.push(currentWeatherInfo);
+        })
     }
 }
 //#endregion
@@ -99,6 +142,16 @@ class WeatherService {
     }
     public GetCurrentWeatherByLocation(locationInfo: LocationInfo): Promise<any> {
         return axios.get(this.API + "/data/2.5/weather", {
+            params: {
+                ...this.defaultOptions,
+                lon: locationInfo.lon,
+                lat: locationInfo.lat,
+                units: 'metric'
+            }
+        })
+    }
+    public GetForecastWeatherByLocation(locationInfo: LocationInfo): Promise<any> {
+        return axios.get(this.API + "/data/2.5/forecast", {
             params: {
                 ...this.defaultOptions,
                 lon: locationInfo.lon,

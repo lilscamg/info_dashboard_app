@@ -12,7 +12,7 @@
       @click="getWeather">
     </ButtonComponent> 
   </div>
-  <div class="card">
+  <div class="app-card">
     <div 
       class="weather-not-found" 
       v-if="!isWeatherInfoLoaded">
@@ -24,10 +24,10 @@
       v-else>
       <!-- Время и локация -->
       <div class="weather-location">
-        <span>Прогноз на {{ new Date(currentWeatherInfo.dt * 1000).toLocaleString() }} для:</span><br>
+        <span>Прогноз на {{ currentWeatherInfo.dt_text }} для:</span><br>
         <span class="c-main text-bold">
-          {{ locationInfo.local_names ? locationInfo.local_names[lang] : locationInfo.name }},
-          {{ locationInfo.state !== locationInfo.name ? locationInfo.state : "" }}
+          {{ locationInfo.local_names[lang] ? locationInfo.local_names[lang] : locationInfo.name }}
+          {{ locationInfo.state && locationInfo.state !== locationInfo.name ? ", " + locationInfo.state : "" }}
         </span>
       </div>
       <!-- Описание погоды -->
@@ -148,24 +148,51 @@
       <hr>
       <!-- Прогноз на несколько дней -->
       <div class="row">
-        <div class="col-12 weather-forecast-title">Информация на 5 дней</div>
+        <div class="col-12 mb-2 weather-forecast-title">
+          <div class="row">
+            <span class="col-auto">Информация на 5 дней</span>
+            <div class="col">
+              <img src="@/assets/icons/calendar.png" alt="">
+            </div>
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="weather-forecast-items" @wheel="forecastScroll" ref="foreacastScrollableContainer">
+            <div
+              class="app-card"
+              v-for="weatherInfo in forecastInfo.list"
+              :key="weatherInfo.dt">
+                <div>{{ weatherInfo.dt_text }}</div>
+                <div class="d-flex justify-content-center align-items-center">
+                  <img class="me-2" :src="weatherInfo.weatherIcon" alt="">
+                  <span class="c-main text-bold">{{ weatherInfo.temp }}°</span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center text-bold text-uppercase">
+                  {{ weatherInfo.weatherDescription }}
+                </div>
+            </div>
+          </div>  
+        </div>
       </div>
     </div>
   </div>
+  <ModalComponent ref="refModal"></ModalComponent>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, onMounted } from 'vue';
 import InputTextComponent from '@/components/UI/InputTextComponent.vue';
 import ButtonComponent from '@/components/UI/ButtonComponent.vue';
-import weatherService, { LocationInfo, CurrentWeatherInfo } from '@/services/weatherService';
+import ModalComponent from '@/components/ModalComponent.vue';
+import weatherService, { LocationInfo, CurrentWeatherInfo, ForecastInfo } from '@/services/weatherService';
 import { useStore } from '@/store/store';
 
 export default defineComponent({
   name: 'WeatherView',
   components: {
     InputTextComponent,
-    ButtonComponent
+    ButtonComponent,
+    ModalComponent
   },
 
   setup() {
@@ -173,28 +200,32 @@ export default defineComponent({
     const isMobile = computed<boolean>(() => store.getters.getIsMobile);
     const lang = computed<any>(() => store.getters.getLang);
     const isWeatherInfoLoaded = ref<boolean>(false);
-    const locationInput = ref<string>("Казань");
+    const locationInput = ref<string>("");
+    const isModalShown = ref<boolean>(false);
     let locationInfo = reactive<LocationInfo>(new LocationInfo());
     let currentWeatherInfo = reactive<CurrentWeatherInfo>(new CurrentWeatherInfo());
+    let forecastInfo = reactive<ForecastInfo>(new ForecastInfo());
+    const refModal = ref<InstanceType<typeof ModalComponent> | null>(null);
+    const foreacastScrollableContainer = ref<any>(null); 
 
-    // to do: убрать
-    onMounted(async () => {
-      await getWeather();
-    }) 
+    // onMounted(() => {
+    //   getWeather();
+    // })
 
     const getWeather = async () => {
+      // если ничего не введено
       if (locationInput.value.trim() === "") {
         isWeatherInfoLoaded.value = false;
-        alert("Ничего не введено")
+        showModal("Ошибка", "Введите название локации");
         return;
       }
-      
-      await store.dispatch("SHOW_PRELOADER_TRUE");
 
+      await store.dispatch("SHOW_PRELOADER_TRUE");
       try {
+        // получение локации
         const locationResponse = await weatherService.GetLocationInfoByName(locationInput.value);
         locationInfo.Update(locationResponse.data[0]);
-
+        // получение погоды сейчас
         const weatherResponse = await weatherService.GetCurrentWeatherByLocation(locationInfo);
         currentWeatherInfo.Update(
           weatherResponse.data.weather[0],
@@ -205,16 +236,24 @@ export default defineComponent({
           weatherResponse.data.rain,
           weatherResponse.data.snow,
           weatherResponse.data.name,
-          weatherResponse.data.dt
+          weatherResponse.data.dt,
         );
+        
+        // получение погоды на 3 дня
+        const forecastResponse = await weatherService.GetForecastWeatherByLocation(locationInfo);
+        forecastInfo.Update(
+          forecastResponse.data.city,
+          forecastResponse.data.cnt,
+          forecastResponse.data.list
+        )
 
         isWeatherInfoLoaded.value = true;
         await store.dispatch("SHOW_PRELOADER_FALSE");
       } 
-      catch (error) {
+      catch (error: any) {
         isWeatherInfoLoaded.value = false;
         await store.dispatch("SHOW_PRELOADER_FALSE");
-        alert(error);
+        showModal("Ошибка", "Произошла ошибка при получении погоды", error.toString());
       }
     };
 
@@ -222,15 +261,37 @@ export default defineComponent({
       locationInput.value = inputValue;
     }
 
+    const showModal = (title: string, text: string, error: string | null = null) => {
+      if (!refModal.value) {
+        alert("refModal еще не смонтирован");
+        return;
+      }
+      refModal.value.showModal(true, title, text, error);
+    }
+
+    const forecastScroll = (event: any) => {
+      if (!foreacastScrollableContainer.value) {
+        return;
+      }
+      event.preventDefault();
+      foreacastScrollableContainer.value.scrollLeft += event.deltaY;
+    }
+
     return {
       lang,
       isMobile,
       isWeatherInfoLoaded,
       locationInput,
+      isModalShown,
       locationInfo,
       currentWeatherInfo,
+      forecastInfo,
+      refModal,
+      foreacastScrollableContainer,
       getWeather,
-      inputEventHandler
+      inputEventHandler,
+      showModal,
+      forecastScroll
     }
   }
 });
@@ -273,6 +334,17 @@ export default defineComponent({
 .weather-option-title, .weather-forecast-title {
   font-size: 24px;
   font-weight: 700;
+}
+.weather-forecast-items {
+  display: flex;
+  overflow-x: scroll;
+  white-space: nowrap;
+  gap: 20px;
+  padding-bottom: 10px;
+}
+.weather-forecast-item {
+  padding: var(--default-padding);
+  border: 1px solid var(--gray-color);
 }
 @media (max-width: 450px) {
   .weather-not-found img {

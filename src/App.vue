@@ -1,12 +1,10 @@
 <template>
-  <div class="app-container">
-    <PreloaderComponent v-if="showPreloader"></PreloaderComponent>
-    <NavbarComponent></NavbarComponent>
-    <div 
-      class="view-layout"
-      :class="{'view-layout-margin': isSetMarginToViewLayout}">
-        <router-view/>
-    </div>
+  <PreloaderComponent v-if="showPreloader"></PreloaderComponent>
+  <NavbarComponent></NavbarComponent>
+  <div 
+    class="view-layout"
+    :class="{'view-layout-margin': isSetMarginToViewLayout}">
+      <router-view/>
   </div>
 </template>
 
@@ -53,11 +51,10 @@ export default defineComponent({
 </script>
 
 <style>
-.app-container {
+#app {
   display: flex;
   flex-direction: column;
   position: relative;
-  height: 100%s;
 }
 .view-layout {
   padding: var(--default-padding);
@@ -67,7 +64,7 @@ export default defineComponent({
   margin-left: 60px;
 }
 @media (max-width: 450px) {
-  .app-container {
+  #app {
     flex-direction: row !important;
   }
 }
