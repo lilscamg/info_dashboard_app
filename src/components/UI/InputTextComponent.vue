@@ -48,7 +48,7 @@ input:focus {
 }
 label {
     position: absolute;
-    font-size: 12px;
+    font-size: var(--fs-sm);
     background-color: white;
     z-index: 30;
     left: 15px;

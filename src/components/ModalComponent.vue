@@ -91,7 +91,7 @@ export default defineComponent({
 }
 .modal-content {
     margin: auto;
-    padding: var(--default-padding);
+    padding: var(--default-offset);
     background: white;
     border-radius: var(--default-border-radius);
     width: 350px;
@@ -100,30 +100,30 @@ export default defineComponent({
 }
 .modal-title {
     color: var(--main-color);
-    font-size: 18px;
+    font-size: var(--fs-lg);
     font-weight: 700;
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: var(--default-offset);
 }
 .modal-text {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-size: 16px;
+    font-size: var(--fs-md);
     text-align: center;
     flex-grow: 1;
-    margin-bottom: 20px;
+    margin-bottom: var(--default-offset);
 }
 .modal-error {
-    margin-bottom: 20px;
+    margin-bottom: var(--default-offset);
 }
 .modal-error-detailed {
     display: inline-flex;
     cursor: pointer;
-    color: var(--gray-color);
 }
 .modal-error-text {
     color: var(--red-color);
+    font-size: var(--fs-sm);
 }
 .modal-buttons {
     display: flex;

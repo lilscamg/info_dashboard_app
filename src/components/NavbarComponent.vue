@@ -62,13 +62,13 @@ export default defineComponent({
 nav {
   display: flex;
   background-color: var(--main-color);
-  padding: var(--default-padding);
+  padding: var(--default-offset);
   z-index: 40;
 }
 nav.desktop{
   flex-direction: row;
   align-items: center;
-  gap: 20px;
+  gap: var(--default-offset);
 }
 nav.mobile {
   flex-direction: column;

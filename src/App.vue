@@ -58,7 +58,7 @@ export default defineComponent({
   height: auto;
 }
 .view-layout {
-  padding: var(--default-padding);
+  padding: var(--default-offset);
   flex-grow: 1;
   height: auto;
 }
