@@ -1,7 +1,7 @@
 <template>
 <div 
     @click="navigateTo(navItem.path)"
-    class="d-flex flex-row align-items-center gap-1">
+    class="d-flex flex-row align-items-center gap-2">
         <img :src="navItem.img">
         <a v-show="!isMobile || (showMenu && isMobile)">{{navItem.name}}</a> 
 </div>

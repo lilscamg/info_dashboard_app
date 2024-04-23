@@ -100,7 +100,7 @@ export default defineComponent({
 }
 .modal-title {
     color: var(--main-color);
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     text-align: center;
     margin-bottom: 20px;
@@ -109,7 +109,7 @@ export default defineComponent({
     display: flex;
     flex-direction: column;
     justify-content: center;
-    font-size: 18px;
+    font-size: 16px;
     text-align: center;
     flex-grow: 1;
     margin-bottom: 20px;

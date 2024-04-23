@@ -12,12 +12,12 @@ import weatherIcon from "@/assets/icons/cloudy.png"
 import exchangeRatesIcon from "@/assets/icons/currency.png";
 
 export const navItems: NavItem[] = [
-    {
-        id: 1,
-        name: "Главная",
-        path: "/",
-        img: homeIcon
-    },
+    // {
+    //     id: 1,
+    //     name: "Главная",
+    //     path: "/",
+    //     img: homeIcon
+    // },
     {
         id: 2,
         name: "Погода",

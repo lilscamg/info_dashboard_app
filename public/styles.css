@@ -19,15 +19,12 @@ body {
   font-style: normal;
   background-color: var(--background-color);
 }
-#app {
-  height: 100%;
-}
 
 /* Styles */
 .view-title {
   color: var(--main-color);
   margin-bottom: 20px;
-  font-size: 35px;
+  font-size: 32px;
   font-weight: 700;
 }
 .text-bold {

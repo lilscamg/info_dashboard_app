@@ -1,5 +1,6 @@
 <template>
-    <nav class="desktop">
+
+    <nav v-if="!isMobile" class="desktop">
       <!-- <img src="@/assets/logo/logo32.png" class="nav-logo" alt="">
       <div class="nav-title">InfoDashboard</div> -->
       <NavbarItemComponent
@@ -14,7 +15,8 @@
         </LinkComponent>
       </div>
     </nav>
-    <nav class="mobile" 
+
+    <nav v-if="isMobile" class="mobile" 
       :class="[!menuShow? 'hide':'']">
         <img 
           class="mb-2" 
@@ -47,6 +49,7 @@ export default defineComponent({
       return {
         navItems,
         menuShow: computed<boolean>(() => store.getters.getShowMenu),
+        isMobile: computed<boolean>(() => store.getters.getIsMobile),
         hideMenu: () => {
           store.dispatch(`NAVBAR_MENU_${store.getters.getShowMenu ? "HIDE" : "SHOW"}`);
         }
@@ -71,15 +74,13 @@ nav.mobile {
   flex-direction: column;
   display: none;
   gap: 15px;
-  position: absolute;
+  /* for sticky: */
+  position: fixed;
+  height: 100vh;
 }
 nav img:not(.nav-logo) {
   width: 20px;
   height: 20px;
-}
-nav.mobile.hide {
-  flex-basis: 50px;
-  position: sticky;
 }
 .nav-title {
   font-size: 24px;

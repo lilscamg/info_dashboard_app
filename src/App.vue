@@ -54,18 +54,21 @@ export default defineComponent({
 #app {
   display: flex;
   flex-direction: column;
-  position: relative;
+  min-height: 100%;
+  height: auto;
 }
 .view-layout {
   padding: var(--default-padding);
   flex-grow: 1;
-}
-.view-layout-margin {
-  margin-left: 60px;
+  height: auto;
 }
 @media (max-width: 450px) {
-  #app {
+  /* ломается здесь */
+  /* #app {
     flex-direction: row !important;
-  }
+  } */
+  .view-layout {
+    margin-left: 60px;
+  }  
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="view-title">Погода</div>
-  <div class="d-flex gap-2 mb-5">
+  <div class="d-flex gap-2 mb-4">
     <InputTextComponent 
       :label="'Город, село и т.д.'" 
       :placeholder="'Введите название'"
@@ -150,7 +150,7 @@
       <div class="row">
         <div class="col-12 mb-2 weather-forecast-title">
           <div class="row">
-            <span class="col-auto">Информация на 5 дней</span>
+            <div class="col-auto">Погода на 5 дней</div>
             <div class="col">
               <img src="@/assets/icons/calendar.png" alt="">
             </div>
@@ -200,7 +200,7 @@ export default defineComponent({
     const isMobile = computed<boolean>(() => store.getters.getIsMobile);
     const lang = computed<any>(() => store.getters.getLang);
     const isWeatherInfoLoaded = ref<boolean>(false);
-    const locationInput = ref<string>("");
+    const locationInput = ref<string>("Казань");
     const isModalShown = ref<boolean>(false);
     let locationInfo = reactive<LocationInfo>(new LocationInfo());
     let currentWeatherInfo = reactive<CurrentWeatherInfo>(new CurrentWeatherInfo());
@@ -208,9 +208,9 @@ export default defineComponent({
     const refModal = ref<InstanceType<typeof ModalComponent> | null>(null);
     const foreacastScrollableContainer = ref<any>(null); 
 
-    // onMounted(() => {
-    //   getWeather();
-    // })
+    onMounted(() => {
+      getWeather();
+    })
 
     const getWeather = async () => {
       // если ничего не введено
@@ -313,13 +313,13 @@ export default defineComponent({
   font-weight: 700;
 }
 .weather-location {
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1;
   margin-bottom: 20px;
 }
 .weather-desc {
   text-transform: uppercase;
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
 }
 .weather-options {
@@ -329,10 +329,10 @@ export default defineComponent({
   display: none;
 }
 .weather-option  {
-  font-size: 20px;
+  font-size: 16px;
 }
 .weather-option-title, .weather-forecast-title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 700;
 }
 .weather-forecast-items {
@@ -352,7 +352,7 @@ export default defineComponent({
     height: 128px;
   }
   .weather-desc {
-    font-size: 20px;
+    font-size: 16px;
   }
   .weather-options {
     gap: unset;
