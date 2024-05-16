@@ -26,7 +26,7 @@ export const navItems: NavItem[] = [
     },
     {
         id: 3,
-        name: "Валюты",
+        name: "Курсы валют",
         path: "/exchange-rates",
         img: exchangeRatesIcon
     }

@@ -1,12 +1,13 @@
 <template>
   <div class="view-title">Погода</div>
   <div class="d-flex gap-2 mb-4">
-    <InputTextComponent 
+    <InputComponent
+      :value="locationInput" 
       :label="'Город, село и т.д.'" 
-      :placeholder="'Введите название'"
+      :placeholder="isMobile ? 'Напр. Казань' : 'Например, Казань'"
       class="w-100"
       @inputEvent="inputEventHandler">
-    </InputTextComponent>
+    </InputComponent>
     <ButtonComponent 
       :text="'Поиск'"
       @click="getWeather">
@@ -14,8 +15,9 @@
   </div>
 
   <div class="app-card">
+    <!-- to do: вынести в отдельный компонент -->
     <div 
-      class="weather-not-found" 
+      class="info-not-found" 
       v-if="!isWeatherInfoLoaded">
       <img src="@/assets/weather-not-found.png" >
       <span>Ничего не найдено</span>
@@ -27,14 +29,14 @@
       <div class="weather-location">
         <span>Прогноз на {{ currentWeatherInfo.dt_text }} для:</span><br>
         <span class="c-main text-bold">
-          {{ locationInfo.local_names[lang] ? locationInfo.local_names[lang] : locationInfo.name }}
+          {{ (locationInfo.local_names && locationInfo.local_names[lang]) ? locationInfo.local_names[lang] : locationInfo.name }}
           {{ locationInfo.state && locationInfo.state !== locationInfo.name ? ", " + locationInfo.state : "" }}
         </span>
       </div>
       <!-- Описание погоды -->
       <div class="weather-desc d-flex flex-sm-row flex-column align-items-sm-center">
         <div class="me-3">
-          <img class="me-2" :src="currentWeatherInfo.weatherIcon" alt="">
+          <img class="me-2" :src="currentWeatherInfo.weatherIcon" aкlt="">
           <span class="c-main">{{ currentWeatherInfo.temp }}°</span>
         </div>
         <span>{{ currentWeatherInfo.weatherDescription }}</span>
@@ -177,12 +179,12 @@
       </div>
     </div>
   </div>
-  <ModalComponent ref="refModal"></ModalComponent>
+  <ModalComponent ref="modalRef"></ModalComponent>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, onMounted } from 'vue';
-import InputTextComponent from '@/components/UI/InputTextComponent.vue';
+import InputComponent from '@/components/UI/InputComponent.vue';
 import ButtonComponent from '@/components/UI/ButtonComponent.vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import weatherService, { LocationInfo, CurrentWeatherInfo, ForecastInfo } from '@/services/weatherService';
@@ -191,7 +193,7 @@ import { useStore } from '@/store/store';
 export default defineComponent({
   name: 'WeatherView',
   components: {
-    InputTextComponent,
+    InputComponent,
     ButtonComponent,
     ModalComponent
   },
@@ -201,12 +203,12 @@ export default defineComponent({
     const isMobile = computed<boolean>(() => store.getters.getIsMobile);
     const lang = computed<any>(() => store.getters.getLang);
     const isWeatherInfoLoaded = ref<boolean>(false);
-    const locationInput = ref<string>("");
+    const locationInput = ref<string>("Казань");
     const isModalShown = ref<boolean>(false);
     let locationInfo = reactive<LocationInfo>(new LocationInfo());
     let currentWeatherInfo = reactive<CurrentWeatherInfo>(new CurrentWeatherInfo());
     let forecastInfo = reactive<ForecastInfo>(new ForecastInfo());
-    const refModal = ref<InstanceType<typeof ModalComponent> | null>(null);
+    const modalRef = ref<InstanceType<typeof ModalComponent> | null>(null);
     const foreacastScrollableContainer = ref<any>(null); 
 
     // onMounted(() => {
@@ -263,11 +265,11 @@ export default defineComponent({
     }
 
     const showModal = (title: string, text: string, error: string | null = null) => {
-      if (!refModal.value) {
-        alert("refModal еще не смонтирован");
+      if (!modalRef.value) {
+        alert("modalRef еще не смонтирован");
         return;
       }
-      refModal.value.showModal(true, title, text, error);
+      modalRef.value.showModal(true, title, text, error);
     }
 
     const forecastScroll = (event: any) => {
@@ -287,7 +289,7 @@ export default defineComponent({
       locationInfo,
       currentWeatherInfo,
       forecastInfo,
-      refModal,
+      modalRef,
       foreacastScrollableContainer,
       getWeather,
       inputEventHandler,
@@ -299,20 +301,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.weather-not-found {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 40px;
-  opacity: 0.4;
-}
-.weather-not-found img {
-  width: 256px;
-  height: 256px;
-} 
-.weather-not-found span {
-  font-weight: 700;
-}
 .weather-location {
   font-size: var(--fs-md);
   line-height: 1;
@@ -348,7 +336,7 @@ export default defineComponent({
   border: 1px solid var(--gray-color);
 }
 @media (max-width: 450px) {
-  .weather-not-found img {
+  .info-not-found img {
     width: 128px;
     height: 128px;
   }

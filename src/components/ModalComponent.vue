@@ -28,13 +28,18 @@
                 :text="'Закрыть'" 
                 @click="showModal(false)">
             </ButtonComponent>
+            <ButtonComponent
+                v-if="modalRefObj.text && modalRefObj.link" 
+                :text="modalRefObj.text" 
+                @click="goToModalRef(modalRefObj.link)">
+            </ButtonComponent>
         </div>
     </div>
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive, watch } from 'vue';
 import ButtonComponent from './UI/ButtonComponent.vue';
 
 export default defineComponent({
@@ -47,17 +52,29 @@ export default defineComponent({
         const modalText = ref<string>("");
         const modalTitle = ref<string>("");
         const modalError = ref<string | null>(null);
+        const modalRefObj = reactive<any | null>({ link: null, text: null});
         const isDetailedErrorInfoShown = ref<boolean>(false);
-        const showModal = (isShown: boolean, title = "", text = "", error : string | null = null) => {
+
+        const showModal = (
+            isShown: boolean, 
+            title = "", 
+            text = "", 
+            error : string | null = null,
+            refObj : any | null = null) => 
+        {
             if (isShown) {
                 modalText.value = text;
                 modalTitle.value = title;
                 modalError.value = error;
+                modalRefObj.link = refObj ? refObj.link : null;
+                modalRefObj.text = refObj ? refObj.text : null;
             }
             else {
                 modalText.value = "";
                 modalTitle.value = "";
                 modalError.value = null;
+                modalRefObj.link = null;
+                modalRefObj.text = null;
                 isDetailedErrorInfoShown.value = false;
             }
             isModalShown.value = isShown;
@@ -65,14 +82,19 @@ export default defineComponent({
         const showDetailedError = () => {
             isDetailedErrorInfoShown.value = !isDetailedErrorInfoShown.value;
         }
+        const goToModalRef = (link: string) => {
+            window.open(link, "_blank");
+        }
         return {
             isModalShown,
             modalText,
             modalTitle,
             modalError,
+            modalRefObj,
             isDetailedErrorInfoShown,
             showModal,
-            showDetailedError
+            showDetailedError,
+            goToModalRef
         }
     }
 });
@@ -94,7 +116,9 @@ export default defineComponent({
     padding: var(--default-offset);
     background: white;
     border-radius: var(--default-border-radius);
-    width: 350px;
+    min-width: 350px;
+    max-width: 365px;
+    width: auto;
     display: flex;
     flex-direction: column;
 }
@@ -110,7 +134,7 @@ export default defineComponent({
     flex-direction: column;
     justify-content: center;
     font-size: var(--fs-md);
-    text-align: center;
+    /* text-align: center; */
     flex-grow: 1;
     margin-bottom: var(--default-offset);
 }
@@ -127,6 +151,6 @@ export default defineComponent({
 }
 .modal-buttons {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-evenly;
 }
 </style>

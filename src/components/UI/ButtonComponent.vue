@@ -6,7 +6,7 @@
 import { defineComponent, PropType } from 'vue';
 
 export default defineComponent({
-    name: "InputComponent",
+    name: "ButtonComponent",
     props: {
         text: {
             type: String as PropType<string>,

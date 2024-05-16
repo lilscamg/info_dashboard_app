@@ -1,9 +1,11 @@
 <template>
     <div class="input_text_container">
         <label v-if="label">{{ label }}</label>
-        <input type="text" 
+        <input
+            :type="type"
             v-model="inputValue" 
             :placeholder="placeholder"
+            :disabled="disabled"
             @input="$emit('inputEvent', inputValue)">
     </div> 
 </template>
@@ -12,8 +14,13 @@
 import { defineComponent, PropType, ref } from 'vue';
 
 export default defineComponent({
-    name: "ButtonComponent",
+    name: "InputComponent",
     props: {
+        type: {
+            type: String as PropType<string>,
+            required: false,
+            default: 'text'
+        },
         label: {
             type: String as PropType<string>,
             required: false,
@@ -21,12 +28,25 @@ export default defineComponent({
         placeholder: {
             type: String as PropType<string>,
             required: false,
+        },
+        disabled: {
+            type: Boolean as PropType<boolean>,
+            required: false,
+            default: false
+        },
+        value: {
+            type: [String, Number],
+            required: false,
         }
     },
-    setup() {
-        const inputValue = ref<string>("");
+    setup(props) {
+        const inputValue = ref<string | number | undefined>(props.value);
+        const changeValue = (value: string | number) => {
+            inputValue.value = value;
+        }
         return {
-            inputValue
+            inputValue,
+            changeValue
         }
     }
 });
@@ -36,7 +56,7 @@ export default defineComponent({
 .input_text_container {
     position: relative;
 }
-input[type='text'] {
+input {
     width: 100%;
     padding: 10px 15px;
     border: 1px solid var(--main-color);

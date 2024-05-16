@@ -13,10 +13,11 @@
   /* radius */
   --default-border-radius: 15px;
   /* font-sizes */
-  --fs-view-title: 32px;
   --fs-sm: 12px;
   --fs-md: 16px;
   --fs-lg: 18px;
+  --fs-xl: 24px;
+  --fs-xxl: 32px;
 }
 html, body {
   height: 100%;
@@ -32,7 +33,7 @@ body {
 .view-title {
   color: var(--main-color);
   margin-bottom: var(--default-offset);
-  font-size: var(--fs-view-title);
+  font-size: var(--fs-xxl);
   font-weight: 700;
 }
 .text-bold {
@@ -52,6 +53,26 @@ body {
   padding: var(--default-offset);
   border-radius: var(--default-border-radius);
   border: 1px solid var(--gray-color);
+}
+.info-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  opacity: 0.4;
+}
+.info-not-found img {
+  width: 256px;
+  height: 256px;
+} 
+.info-not-found span {
+  font-weight: 700;
+}
+@media (max-width: 450px) {
+  .info-not-found img {
+    width: 128px;
+    height: 128px;
+  }
 }
 
 /* Scrollbar area */
