@@ -3,7 +3,7 @@ const Dotenv = require('dotenv-webpack');
 
 module.exports = defineConfig({
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/info-dashboard-app/'
+    ? '/info_dashboard_app/'
     : '/',
   outputDir: 'docs',
   assetsDir: '',
