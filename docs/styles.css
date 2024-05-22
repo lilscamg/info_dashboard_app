@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root{
+  /* padding */
+  --default-offset: 20px;
+  /* colors */
+  --background-color: white;
+  --main-color: #49bf7c;
+  --secondary-color: #318254;
+  --red-color: #de314b;
+  --gray-color: #7a7a7a;
+  --light-gray-color: #d9d9d9;
+  /* radius */
+  --default-border-radius: 15px;
+  /* font-sizes */
+  --fs-sm: 12px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 24px;
+  --fs-xxl: 32px;
+}
+html, body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  background-color: var(--background-color);
+}
+
+/* Styles */
+.view-title {
+  color: var(--main-color);
+  margin-bottom: var(--default-offset);
+  font-size: var(--fs-xxl);
+  font-weight: 700;
+}
+.text-bold {
+  font-weight: 700;
+}
+.flex-grow-1 {
+  flex-grow: 1;
+}
+.c-main {
+  color: var(--main-color);
+}
+.c-secondary {
+  color: var(--secondary-color);
+}
+.app-card {
+  background-color: var(white);
+  padding: var(--default-offset);
+  border-radius: var(--default-border-radius);
+  border: 1px solid var(--gray-color);
+}
+.info-not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  opacity: 0.4;
+}
+.info-not-found img {
+  width: 256px;
+  height: 256px;
+} 
+.info-not-found span {
+  font-weight: 700;
+}
+@media (max-width: 450px) {
+  .info-not-found img {
+    width: 128px;
+    height: 128px;
+  }
+}
+
+/* Scrollbar area */
+::-webkit-scrollbar {
+  height: 8px;
+  margin-top: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--light-gray-color); /* цвет фона за скроллбаром */
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--main-color); /* цвет скроллбара */
+  border-radius: 5px; /* радиус скругления углов скроллбара */
+}
+scrollbar {
+  height: 8px;
+  margin-top: 5px;
+}
+scrollbar-track {
+  background-color: var(--light-gray-color); /* цвет фона за скроллбаром */
+  border-radius: 5px;
+}
+scrollbar-thumb {
+  background-color: var(--main-color); /* цвет скроллбара */
+  border-radius: 5px; /* радиус скругления углов скроллбара */
+}
